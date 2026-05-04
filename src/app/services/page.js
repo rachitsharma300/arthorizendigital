@@ -1,36 +1,31 @@
+import { generatePageMetadata } from "@/lib/metadata";
+import SectionHeading from "@/components/ui/SectionHeading";
 import ServicesSection from "@/components/sections/ServicesSection";
+import CTASection from "@/components/sections/CTASection";
 
-export const metadata = {
-  title: "Services | Arthorizen Digital",
-  description:
-    "Explore our premium interior design services — residential, commercial, space planning and consultation.",
-};
+export const metadata = generatePageMetadata({
+  title: "Our Services",
+  description: "Comprehensive architectural and interior design services tailored to your unique lifestyle.",
+  path: "/services"
+});
 
 export default function ServicesPage() {
   return (
     <>
-      {/* Page Hero */}
-      <section className="bg-[#0A0A0A] pt-40 pb-20 px-6 lg:px-12">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-px bg-[#C9A96E]" />
-            <span className="text-xs tracking-[0.3em] uppercase text-[#C9A96E]">
-              What We Offer
-            </span>
-          </div>
-          <h1
-            className="text-6xl md:text-8xl text-[#F5F2EE]"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
-            Our
-            <br />
-            <span className="text-[#C9A96E] italic">Services</span>
-          </h1>
+      <section className="pt-40 pb-12 md:pt-48 md:pb-20 bg-brand-white dark:bg-brand-black transition-colors">
+        <div className="container mx-auto px-4 md:px-8 text-center max-w-4xl">
+          <SectionHeading
+            label="What We Do"
+            title="Comprehensive Design Solutions"
+            description="From initial architectural concepts to the final interior styling layer, we offer end-to-end services that ensure a cohesive and breathtaking result."
+            centered
+            className="mb-0 mx-auto"
+          />
         </div>
       </section>
 
-      {/* Services List */}
       <ServicesSection />
+      <CTASection />
     </>
   );
 }

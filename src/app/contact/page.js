@@ -1,87 +1,54 @@
-export const metadata = {
-  title: "Contact Us | Arthorizen Digital",
-  description:
-    "Get in touch with Arthorizen Digital to discuss your next interior design project.",
-};
+import { generatePageMetadata } from "@/lib/metadata";
+import SectionHeading from "@/components/ui/SectionHeading";
+import ContactForm from "@/components/forms/ContactForm";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+
+export const metadata = generatePageMetadata({
+  title: "Contact Us",
+  description: "Get in touch with Arthorizen Digital to start discussing your next architectural or interior design project.",
+  path: "/contact"
+});
 
 export default function ContactPage() {
   return (
-    <section className="bg-[#0A0A0A] pt-40 pb-20 px-6 lg:px-12 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-px bg-[#C9A96E]" />
-          <span className="text-xs tracking-[0.3em] uppercase text-[#C9A96E]">
-            Get In Touch
-          </span>
-        </div>
-        <h1
-          className="text-6xl md:text-8xl text-[#F5F2EE] mb-12"
-          style={{ fontFamily: "var(--font-heading)" }}
-        >
-          Let's Work
-          <br />
-          <span className="text-[#C9A96E] italic">Together</span>
-        </h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-          <div>
-            <h3 className="text-2xl text-[#F5F2EE] mb-6" style={{ fontFamily: "var(--font-heading)" }}>
-              Contact Information
-            </h3>
-            <div className="flex flex-col gap-6 text-[#ADA8A3]">
-              <div>
-                <p className="text-xs tracking-[0.1em] uppercase text-[#6B6560] mb-2">Email</p>
-                <a href="mailto:hello@arthorizendigital.com" className="hover:text-[#C9A96E] transition-colors">
-                  hello@arthorizendigital.com
-                </a>
-              </div>
-              <div>
-                <p className="text-xs tracking-[0.1em] uppercase text-[#6B6560] mb-2">Phone</p>
-                <p>+91 98765 43210</p>
-              </div>
-              <div>
-                <p className="text-xs tracking-[0.1em] uppercase text-[#6B6560] mb-2">Location</p>
-                <p>123 Design Avenue, Creative District<br />Mumbai, Maharashtra 400001<br />India</p>
-              </div>
-            </div>
-          </div>
+    <div className="bg-brand-white dark:bg-brand-black min-h-screen pt-40 pb-24 md:pt-48 transition-colors">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           
-          <div className="bg-[#111111] p-8 border border-[#C9A96E]/10">
-            <h3 className="text-2xl text-[#F5F2EE] mb-8" style={{ fontFamily: "var(--font-heading)" }}>
-              Send a Message
-            </h3>
-            <form className="flex flex-col gap-6">
+          <div>
+            <SectionHeading
+              label="Get In Touch"
+              title="Start Your Project"
+              description="Whether you have a specific vision or need guidance from the ground up, our team is ready to bring your ideas to life."
+            />
+            
+            <ScrollReveal delay={0.2} className="space-y-12 mt-12">
               <div>
-                <input 
-                  type="text" 
-                  placeholder="Your Name" 
-                  className="w-full bg-transparent border-b border-[#C9A96E]/20 pb-3 text-[#F5F2EE] focus:outline-none focus:border-[#C9A96E] transition-colors placeholder:text-[#6B6560]"
-                />
+                <h4 className="font-heading text-2xl mb-4 text-brand-black dark:text-brand-white">Studio</h4>
+                <address className="not-italic text-brand-gray dark:text-brand-gray-light leading-relaxed">
+                  1280 Design Avenue<br />
+                  Suite 400<br />
+                  New York, NY 10001
+                </address>
               </div>
+              
               <div>
-                <input 
-                  type="email" 
-                  placeholder="Your Email" 
-                  className="w-full bg-transparent border-b border-[#C9A96E]/20 pb-3 text-[#F5F2EE] focus:outline-none focus:border-[#C9A96E] transition-colors placeholder:text-[#6B6560]"
-                />
+                <h4 className="font-heading text-2xl mb-4 text-brand-black dark:text-brand-white">Connect</h4>
+                <div className="space-y-2 text-brand-gray dark:text-brand-gray-light">
+                  <p><a href="mailto:hello@arthorizendigital.com" className="hover:text-brand-gold transition-colors">hello@arthorizendigital.com</a></p>
+                  <p><a href="tel:+12125550199" className="hover:text-brand-gold transition-colors">+1 (212) 555-0199</a></p>
+                </div>
               </div>
-              <div>
-                <textarea 
-                  placeholder="Tell us about your project" 
-                  rows={4}
-                  className="w-full bg-transparent border-b border-[#C9A96E]/20 pb-3 text-[#F5F2EE] focus:outline-none focus:border-[#C9A96E] transition-colors placeholder:text-[#6B6560] resize-none"
-                />
-              </div>
-              <button 
-                type="button"
-                className="mt-4 border border-[#C9A96E] text-[#C9A96E] py-3 px-8 hover:bg-[#C9A96E] hover:text-[#0A0A0A] transition-all duration-300 w-fit text-sm tracking-[0.1em] uppercase"
-              >
-                Submit Inquiry
-              </button>
-            </form>
+            </ScrollReveal>
           </div>
+
+          <ScrollReveal direction="left" delay={0.4} className="bg-[#F5F2EE] dark:bg-[#050505] p-8 md:p-12 border border-brand-gray-light/20">
+            <h3 className="font-heading text-3xl mb-8 text-brand-black dark:text-brand-white">Send us a message</h3>
+            <ContactForm />
+          </ScrollReveal>
+
         </div>
       </div>
-    </section>
+    </div>
   );
 }

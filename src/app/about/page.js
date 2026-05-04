@@ -1,37 +1,55 @@
-export const metadata = {
-  title: "About Us | Arthorizen Digital",
-  description:
-    "Learn about Arthorizen Digital and our passion for transforming spaces into extraordinary experiences.",
-};
+import { generatePageMetadata } from "@/lib/metadata";
+import SectionHeading from "@/components/ui/SectionHeading";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import { team } from "@/data/team";
+import CTASection from "@/components/sections/CTASection";
+
+export const metadata = generatePageMetadata({
+  title: "About Us",
+  description: "Learn about Arthorizen Digital's story, values, and the team behind our award-winning designs.",
+  path: "/about"
+});
 
 export default function AboutPage() {
   return (
-    <section className="bg-[#0A0A0A] pt-40 pb-20 px-6 lg:px-12 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-px bg-[#C9A96E]" />
-          <span className="text-xs tracking-[0.3em] uppercase text-[#C9A96E]">
-            Who We Are
-          </span>
+    <>
+      <section className="pt-40 pb-20 md:py-48 bg-brand-white dark:bg-brand-black transition-colors">
+        <div className="container mx-auto px-4 md:px-8">
+          <SectionHeading
+            label="Our Story"
+            title="A Legacy of Design Excellence"
+            description="Since 2015, we've been transforming spaces with an unwavering commitment to craftsmanship and innovation."
+            centered
+          />
+
+          <div className="mt-20">
+            <ScrollReveal className="relative aspect-video bg-brand-gray-light/20 flex items-center justify-center w-full max-w-5xl mx-auto">
+              <span className="text-brand-gray uppercase tracking-widest text-sm">[ Image: Team at work / Studio ]</span>
+            </ScrollReveal>
+          </div>
         </div>
-        <h1
-          className="text-6xl md:text-8xl text-[#F5F2EE] mb-12"
-          style={{ fontFamily: "var(--font-heading)" }}
-        >
-          About
-          <br />
-          <span className="text-[#C9A96E] italic">Arthorizen</span>
-        </h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-[#ADA8A3] leading-relaxed">
-          <p>
-            At Arthorizen Digital, we believe that the spaces we inhabit shape our experiences, emotions, and daily lives. We are a premier interior design studio dedicated to crafting environments that are not only visually stunning but profoundly functional and deeply personal.
-          </p>
-          <p>
-            With years of expertise across residential, commercial, and hospitality projects, our team brings a meticulous eye for detail, a passion for innovative design, and a commitment to excellence in every project we undertake.
-          </p>
+      </section>
+
+      <section className="py-24 md:py-32 bg-[#F5F2EE] dark:bg-[#050505] transition-colors">
+        <div className="container mx-auto px-4 md:px-8">
+          <SectionHeading label="Our Team" title="The Creative Minds" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-16">
+            {team.map((member, i) => (
+              <ScrollReveal key={member.id} delay={i * 0.1}>
+                <div className="aspect-[3/4] bg-brand-gray-light/20 mb-6 flex items-center justify-center">
+                  <span className="text-brand-gray uppercase tracking-widest text-xs">[ Photo: {member.name} ]</span>
+                </div>
+                <h3 className="font-heading text-2xl text-brand-black dark:text-brand-white mb-1">{member.name}</h3>
+                <p className="text-brand-gold text-sm uppercase tracking-widest mb-4">{member.role}</p>
+                <p className="text-brand-gray dark:text-brand-gray-light text-sm">{member.bio}</p>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <CTASection />
+    </>
   );
 }

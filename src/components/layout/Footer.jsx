@@ -1,87 +1,72 @@
 import Link from "next/link";
-
-const footerLinks = {
-    Company: [
-        { label: "About Us", href: "/about" },
-        { label: "Services", href: "/services" },
-        { label: "Projects", href: "/projects" },
-        { label: "Contact", href: "/contact" },
-    ],
-    Services: [
-        { label: "Residential Design", href: "/services" },
-        { label: "Commercial Design", href: "/services" },
-        { label: "Space Planning", href: "/services" },
-        { label: "Consultation", href: "/services" },
-    ],
-};
+import { Diamond, Camera, Briefcase, Paintbrush } from "lucide-react";
 
 export default function Footer() {
-    return (
-        <footer className="bg-[#0A0A0A] border-t border-[#C9A96E]/20">
-            <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-                    {/* Brand */}
-                    <div className="md:col-span-2">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-8 h-8 border border-[#C9A96E] rotate-45" />
-                            <span
-                                className="text-xl tracking-[0.2em] uppercase text-[#F5F2EE]"
-                                style={{ fontFamily: "var(--font-heading)" }}
-                            >
-                                Arthorizen
-                            </span>
-                        </div>
-                        <p className="text-[#6B6560] text-sm leading-relaxed max-w-xs">
-                            Transforming spaces into extraordinary experiences. We craft
-                            interiors that inspire, elevate, and endure.
-                        </p>
-                        {/* Social Links */}
-                        <div className="flex flex-wrap gap-6 mt-8">
-                            {["Instagram", "LinkedIn", "Pinterest"].map((social) => (
-                                <a
-                                    key={social}
-                                    href="#"
-                                    className="text-xs tracking-[0.15em] uppercase text-[#6B6560] hover:text-[#C9A96E] transition-colors duration-300"
-                                >
-                                    {social}
-                                </a>
-                            ))}
-                        </div>
-                    </div>
+  return (
+    <footer className="bg-[#0A0A0A] text-brand-white pt-20 pb-10 border-t border-brand-gray-light/10">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+          <div className="lg:col-span-1">
+            <Link href="/" className="flex items-center gap-2 mb-6 group">
+              <Diamond className="w-6 h-6 text-brand-gold group-hover:rotate-45 transition-transform duration-500" />
+              <span className="font-heading text-2xl font-bold tracking-widest text-brand-white">
+                ARTHORIZEN
+              </span>
+            </Link>
+            <p className="text-brand-gray-light mb-8 max-w-sm">
+              Transforming spaces into timeless experiences through visionary architecture and curated design.
+            </p>
+            <div className="flex items-center gap-4">
+              <a href="#" className="w-10 h-10 rounded-full border border-brand-gray-light/30 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold transition-colors">
+                <Camera className="w-4 h-4" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full border border-brand-gray-light/30 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold transition-colors">
+                <Briefcase className="w-4 h-4" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full border border-brand-gray-light/30 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold transition-colors">
+                <Paintbrush className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
 
-            {/* Links */}
-            {Object.entries(footerLinks).map(([title, links]) => (
-                <div key={title}>
-                    <h4 className="text-xs tracking-[0.2em] uppercase text-[#C9A96E] mb-6">
-                        {title}
-                    </h4>
-                    <ul className="flex flex-col gap-3">
-                        {links.map((link) => (
-                            <li key={link.label}>
-                                <Link
-                                    href={link.href}
-                                    className="text-sm text-[#6B6560] hover:text-[#F5F2EE] transition-colors duration-300"
-                                >
-                                    {link.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
+          <div>
+            <h4 className="text-lg font-heading mb-6 tracking-wider">Company</h4>
+            <ul className="space-y-4 text-brand-gray-light">
+              <li><Link href="/about" className="hover:text-brand-gold transition-colors">About Us</Link></li>
+              <li><Link href="/projects" className="hover:text-brand-gold transition-colors">Our Projects</Link></li>
+              <li><Link href="/team" className="hover:text-brand-gold transition-colors">Leadership</Link></li>
+              <li><Link href="/contact" className="hover:text-brand-gold transition-colors">Contact</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-heading mb-6 tracking-wider">Services</h4>
+            <ul className="space-y-4 text-brand-gray-light">
+              <li><Link href="/services" className="hover:text-brand-gold transition-colors">Architectural Design</Link></li>
+              <li><Link href="/services" className="hover:text-brand-gold transition-colors">Interior Architecture</Link></li>
+              <li><Link href="/services" className="hover:text-brand-gold transition-colors">Interior Styling</Link></li>
+              <li><Link href="/services" className="hover:text-brand-gold transition-colors">Custom Furniture</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-heading mb-6 tracking-wider">Office</h4>
+            <address className="not-italic text-brand-gray-light space-y-4">
+              <p>1280 Design Avenue<br />Suite 400<br />New York, NY 10001</p>
+              <p><a href="mailto:hello@arthorizendigital.com" className="hover:text-brand-gold transition-colors">hello@arthorizendigital.com</a></p>
+              <p><a href="tel:+12125550199" className="hover:text-brand-gold transition-colors">+1 (212) 555-0199</a></p>
+            </address>
+          </div>
         </div>
 
-        {/* Bottom Bar */ }
-    <div className="mt-16 pt-8 border-t border-[#C9A96E]/10 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-xs text-[#6B6560] tracking-[0.1em]">
-            © {new Date().getFullYear()} Arthorizen Digital. All rights
-            reserved.
-        </p>
-        <p className="text-xs text-[#6B6560] tracking-[0.1em]">
-            Designed with precision & passion
-        </p>
-    </div>
-      </div >
-    </footer >
+        <div className="pt-8 border-t border-brand-gray-light/10 flex flex-col md:flex-row items-center justify-between text-sm text-brand-gray-light">
+          <p>&copy; {new Date().getFullYear()} Arthorizen Digital. All rights reserved.</p>
+          <div className="flex gap-6 mt-4 md:mt-0">
+            <Link href="#" className="hover:text-brand-gold transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-brand-gold transition-colors">Terms of Service</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }

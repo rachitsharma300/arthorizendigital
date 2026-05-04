@@ -24,9 +24,6 @@ html {
 }
 
 body {
-  background-color: var(--color-brand-black);
-  color: var(--color-brand-white);
-  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -46,4 +43,8 @@ body {
 ::-webkit-scrollbar-thumb {
   background: var(--color-brand-gold);
   border-radius: 3px;
+}
+
+html,body {
+  overflow-x: hidden;
 }

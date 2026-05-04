@@ -1,154 +1,75 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { projects } from "@/data/projects";
+import SectionHeading from "@/components/ui/SectionHeading";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
-const projects = [
-    {
-        id: 1,
-        title: "The Serene Villa",
-        category: "Residential",
-        location: "Mumbai, India",
-        year: "2024",
-        description:
-            "A luxurious 4BHK villa transformed into a serene sanctuary with warm neutrals, natural textures, and bespoke furniture.",
-        tags: ["Luxury", "Residential", "Full Design"],
-    },
-    {
-        id: 2,
-        title: "Nexus Corporate Hub",
-        category: "Commercial",
-        location: "Delhi, India",
-        year: "2024",
-        description:
-            "A modern office space designed to foster collaboration and creativity — featuring open workspaces, private pods, and a stunning reception area.",
-        tags: ["Office", "Commercial", "Space Planning"],
-    },
-    {
-        id: 3,
-        title: "The Golden Apartment",
-        category: "Residential",
-        location: "Bangalore, India",
-        year: "2023",
-        description:
-            "A compact 2BHK apartment redesigned with smart storage solutions, gold accents, and a minimalist aesthetic that feels spacious and elegant.",
-        tags: ["Minimal", "Apartment", "Residential"],
-    },
-    {
-        id: 4,
-        title: "Aroma Cafe & Lounge",
-        category: "Hospitality",
-        location: "Pune, India",
-        year: "2023",
-        description:
-            "A cozy cafe interior blending industrial elements with warm lighting and lush greenery — creating an inviting atmosphere for every guest.",
-        tags: ["Hospitality", "Cafe", "Commercial"],
-    },
-];
+export default function ProjectsSection({ limit = 4, featuredOnly = false }) {
+  const displayProjects = projects
+    .filter((p) => (featuredOnly ? p.featured : true))
+    .slice(0, limit);
 
-export default function ProjectsSection() {
-    return (
-        <section className="bg-[#0A0A0A] py-32 px-6 lg:px-12">
-            <div className="max-w-7xl mx-auto">
-                {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-                    <div>
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="flex items-center gap-3 mb-4"
-                        >
-                            <div className="w-8 h-px bg-[#C9A96E]" />
-                            <span className="text-xs tracking-[0.3em] uppercase text-[#C9A96E]">
-                                Our Work
-                            </span>
-                        </motion.div>
-                        <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.1 }}
-                            className="text-5xl md:text-6xl text-[#F5F2EE]"
-                            style={{ fontFamily: "var(--font-heading)" }}
-                        >
-                            Featured Projects
-                        </motion.h2>
-                    </div>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-[#6B6560] max-w-sm text-sm leading-relaxed"
-                    >
-                        Every project tells a story. Here are some of our most celebrated
-                        transformations.
-                    </motion.p>
+  return (
+    <section className="py-24 md:py-32 bg-[#F5F2EE] dark:bg-[#050505] text-brand-black dark:text-brand-white transition-colors duration-300">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+          <SectionHeading
+            label="Selected Works"
+            title="A Portfolio of Timeless Design"
+            className="mb-0"
+          />
+          <ScrollReveal delay={0.2} className="mt-8 md:mt-0">
+            <Link href="/projects" className="inline-flex items-center gap-2 text-brand-gold uppercase tracking-widest text-sm font-medium hover:text-brand-gold-light transition-colors group">
+              View All Projects
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </Link>
+          </ScrollReveal>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          {displayProjects.map((project, index) => (
+            <ScrollReveal
+              key={project.id}
+              delay={index * 0.1}
+              className={cn("group cursor-pointer", index % 2 !== 0 && "md:mt-16")}
+            >
+              <Link href={`/projects/${project.id}`}>
+                <div className="relative overflow-hidden aspect-[4/5] mb-6">
+                  {/* Placeholder Image Box */}
+                  <div className="absolute inset-0 bg-brand-gray-light/20 dark:bg-brand-gray-light/10 group-hover:scale-105 transition-transform duration-700 flex items-center justify-center">
+                    <span className="text-brand-gray uppercase tracking-widest text-sm">[ Image: {project.title} ]</span>
+                  </div>
+                  
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Category Tag */}
+                  <div className="absolute top-6 left-6 bg-brand-white dark:bg-brand-black px-4 py-2 text-xs uppercase tracking-widest group-hover:bg-brand-gold group-hover:text-brand-black transition-colors z-10">
+                    {project.category}
+                  </div>
                 </div>
 
-                {/* Projects Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {projects.map((project, i) => (
-                        <motion.div
-                            key={project.id}
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="group relative bg-[#111111] border border-[#C9A96E]/10 hover:border-[#C9A96E]/40 transition-all duration-500 p-8 cursor-pointer"
-                        >
-                            {/* Top Row */}
-                            <div className="flex justify-between items-start mb-6">
-                                <span className="text-xs tracking-[0.2em] uppercase text-[#C9A96E]">
-                                    {project.category}
-                                </span>
-                                <ArrowUpRight
-                                    size={18}
-                                    className="text-[#C9A96E]/30 group-hover:text-[#C9A96E] transition-colors duration-300"
-                                />
-                            </div>
-
-                            {/* Image Placeholder */}
-                            <div className="w-full h-48 bg-[#1A1A1A] border border-[#C9A96E]/10 mb-6 flex items-center justify-center overflow-hidden">
-                                <span className="text-xs tracking-[0.2em] uppercase text-[#6B6560]">
-                                    Project Image
-                                </span>
-                            </div>
-
-                            {/* Title */}
-                            <h3
-                                className="text-3xl text-[#F5F2EE] group-hover:text-[#C9A96E] transition-colors duration-300 mb-2"
-                                style={{ fontFamily: "var(--font-heading)" }}
-                            >
-                                {project.title}
-                            </h3>
-
-                            {/* Location + Year */}
-                            <p className="text-xs text-[#6B6560] tracking-[0.1em] mb-4">
-                                {project.location} · {project.year}
-                            </p>
-
-                            {/* Description */}
-                            <p className="text-[#ADA8A3] text-sm leading-relaxed mb-6">
-                                {project.description}
-                            </p>
-
-                            {/* Tags */}
-                            <div className="flex gap-2 flex-wrap">
-                                {project.tags.map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className="text-xs tracking-[0.1em] px-3 py-1 border border-[#C9A96E]/20 text-[#ADA8A3]"
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                        </motion.div>
-                    ))}
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="font-heading text-3xl mb-2 group-hover:text-brand-gold transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-brand-gray dark:text-brand-gray-light text-sm tracking-wide">
+                      {project.location} · {project.year}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 rounded-full border border-brand-gray-light/30 flex items-center justify-center group-hover:border-brand-gold group-hover:bg-brand-gold group-hover:text-brand-black transition-all">
+                    <ArrowUpRight className="w-5 h-5" />
+                  </div>
                 </div>
-            </div>
-        </section>
-    );
+              </Link>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }

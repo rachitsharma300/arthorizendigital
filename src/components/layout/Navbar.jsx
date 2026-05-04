@@ -2,123 +2,164 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
+import { Sun, Moon, Menu, X, Diamond } from "lucide-react";
+import { cn } from "@/lib/utils";
+import Button from "@/components/ui/Button";
 
 const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Projects", href: "/projects" },
-  { label: "Contact", href: "/contact" },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Services", href: "/services" },
+  { name: "Projects", href: "/projects" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    setMounted(true);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [mobileMenuOpen]);
+
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-[#0A0A0A]/95 backdrop-blur-md border-b border-[#C9A96E]/20"
-          : "bg-transparent"
-      }`}
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled
+          ? "bg-brand-white/90 dark:bg-brand-black/90 backdrop-blur-md py-4 shadow-sm"
+          : "bg-transparent py-6"
+      )}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 border border-[#C9A96E] rotate-45 group-hover:rotate-0 transition-transform duration-500" />
-            <span
-              className="text-xl tracking-[0.2em] uppercase text-[#F5F2EE]"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              Arthorizen
-            </span>
-          </Link>
+      <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 group z-50">
+          <Diamond className="w-6 h-6 text-brand-gold group-hover:rotate-45 transition-transform duration-500" />
+          <span className="font-heading text-2xl font-bold tracking-widest text-brand-black dark:text-brand-white">
+            ARTHORIZEN
+          </span>
+        </Link>
 
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm tracking-[0.15em] uppercase text-[#ADA8A3] hover:text-[#C9A96E] transition-colors duration-300 relative group"
-              >
-                {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#C9A96E] group-hover:w-full transition-all duration-300" />
-              </Link>
-            ))}
-          </div>
-
-          {/* CTA Button */}
-          <div className="hidden md:block">
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
             <Link
-              href="/contact"
-              className="px-6 py-2.5 border border-[#C9A96E] text-[#C9A96E] text-sm tracking-[0.15em] uppercase hover:bg-[#C9A96E] hover:text-[#0A0A0A] transition-all duration-300"
+              key={link.name}
+              href={link.href}
+              className={cn(
+                "text-sm uppercase tracking-widest relative group transition-colors",
+                pathname === link.href
+                  ? "text-brand-gold"
+                  : "text-brand-black dark:text-brand-white hover:text-brand-gold"
+              )}
             >
-              Get in Touch
+              {link.name}
+              <span
+                className={cn(
+                  "absolute -bottom-1 left-0 h-px bg-brand-gold transition-all duration-300",
+                  pathname === link.href ? "w-full" : "w-0 group-hover:w-full"
+                )}
+              />
             </Link>
-          </div>
+          ))}
+        </nav>
 
-          {/* Mobile Menu Button */}
+        <div className="hidden md:flex items-center gap-6">
+          {mounted && (
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="text-brand-black dark:text-brand-white hover:text-brand-gold transition-colors"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+          )}
+          <Button href="/contact" variant="secondary" size="sm">
+            Get in Touch
+          </Button>
+        </div>
+
+        {/* Mobile Toggle */}
+        <div className="flex items-center gap-4 md:hidden z-50">
+          {mounted && (
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="text-brand-black dark:text-brand-white"
+            >
+              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+          )}
           <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-[#F5F2EE] hover:text-[#C9A96E] transition-colors"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="text-brand-black dark:text-brand-white focus:outline-none"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {isOpen && (
+        {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-[#0A0A0A] border-t border-[#C9A96E]/20"
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-100%" }}
+            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            className="fixed inset-0 bg-brand-white dark:bg-brand-black z-40 flex flex-col justify-center items-center h-screen"
           >
-            <div className="px-6 py-8 flex flex-col gap-6">
+            <nav className="flex flex-col items-center gap-8">
               {navLinks.map((link, i) => (
                 <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                  key={link.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + i * 0.1 }}
                 >
                   <Link
                     href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="text-lg tracking-[0.15em] uppercase text-[#ADA8A3] hover:text-[#C9A96E] transition-colors duration-300"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={cn(
+                      "font-heading text-4xl hover:text-brand-gold transition-colors",
+                      pathname === link.href ? "text-brand-gold" : "text-brand-black dark:text-brand-white"
+                    )}
                   >
-                    {link.label}
+                    {link.name}
                   </Link>
                 </motion.div>
               ))}
-              <Link
-                href="/contact"
-                onClick={() => setIsOpen(false)}
-                className="mt-4 px-6 py-3 border border-[#C9A96E] text-[#C9A96E] text-sm tracking-[0.15em] uppercase text-center hover:bg-[#C9A96E] hover:text-[#0A0A0A] transition-all duration-300"
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + navLinks.length * 0.1 }}
+                className="mt-8"
               >
-                Get in Touch
-              </Link>
-            </div>
+                <Button href="/contact" onClick={() => setMobileMenuOpen(false)}>
+                  Get in Touch
+                </Button>
+              </motion.div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </header>
   );
 }
